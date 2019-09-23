@@ -14,14 +14,15 @@ class Ability:
       # Hint: The constructor initializes the maximum attack value. 
           
 
-# class Armor:
-#     # Required properties are defined inside the __init__ constructor method
-#     def __init__(self, name, max_block):
-#         self.name = name
-#         self.max_block = int(max_block)
+class Armor:
+    # Required properties are defined inside the __init__ constructor method
+    def __init__(self, name, max_block):
+        self.name = name
+        self.max_block = 1000
 
-#     # Methods are defined as their own named functions inside the class
-#     def block(self):
+    # Methods are defined as their own named functions inside the class
+    def block(self):
+          return random.randint(1,1000)  
 
 # class Hero:
 #     # Required properties are defined inside the __init__ constructor method
@@ -41,3 +42,6 @@ if __name__ == "__main__":
     ability = Ability("Debugging Ability", 1000)
     print(ability.name)
     print(ability.attack())
+    armor = Armor("Lustrous Shield", 1000)
+    print(armor.name)
+    print(armor.block())
