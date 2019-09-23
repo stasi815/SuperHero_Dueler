@@ -24,19 +24,32 @@ class Armor:
     def block(self):
           return random.randint(1,1000)  
 
-# class Hero:
-#     # Required properties are defined inside the __init__ constructor method
-#     def __init__(self, name, starting_health):
-#         self.name = name
-#         self.starting_health = 100
+class Hero:
+    # Required properties are defined inside the __init__ constructor method
+    def __init__(self, name, starting_health=100):
+        self.name = name
+        self.abilities = []
+        self.armors = []
+        self.starting_health = 100
+        self.current_health = 100
 
-#     # Methods are defined as their own named functions inside the class
-#     def add_ability(self):
-#     def attack(self, ability):
-#     def defend(self, incoming_damage):
-#     def take_damage(self, damage):
-#     def is_alive(self):
-#     def fight(self, opponent):
+    # Methods are defined as their own named functions inside the class
+    def add_ability(self):
+        return
+    def attack(self, ability):
+        return
+
+    def defend(self, incoming_damage):
+        return
+
+    def take_damage(self, damage):
+        return
+
+    def is_alive(self):
+        return
+
+    def fight(self, opponent):
+        return
 
 if __name__ == "__main__":
     ability = Ability("Debugging Ability", 1000)
@@ -45,3 +58,6 @@ if __name__ == "__main__":
     armor = Armor("Lustrous Shield", 1000)
     print(armor.name)
     print(armor.block())
+    my_hero = Hero("Mystic Mayhem", 100)
+    print(my_hero.name)
+    print(my_hero.current_health)
