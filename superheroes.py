@@ -1,14 +1,19 @@
 import random
 
 class Ability:
+    """Create Instance Variables:
+          name:String
+          attack_strength: Integer
+    """
     # Required properties are defined inside the __init__ constructor method
-    def __init__(self, name, max_damage):
+    def __init__(self, name, attack_strength):
         self.name = name
-        self.max_damage = max_damage
+        self.attack_strength = attack_strength
     # Methods are defined as their own named functions inside the class
     def attack(self):
-          return random.randint(0, self.max_damage)  
-      # ''' Return a value between 0 and the value set by self.max_damage.'''
+        """Return a value between 0 and the value set by self.max_damage.
+        """
+        return random.randint(0, self.attack_strength)  
       # TODO: Use random.randint(a, b) to select a random attack value.
       # Return an attack value between 0 and the full attack.
       # Hint: The constructor initializes the maximum attack value. 
@@ -17,21 +22,33 @@ class Ability:
 class Armor:
     # Required properties are defined inside the __init__ constructor method
     def __init__(self, name, max_block):
+        """Instantiate instance properties.
+        name: String
+        max_block: Integer
+        """
         self.name = name
         self.max_block = max_block
 
     # Methods are defined as their own named functions inside the class
     def block(self):
-          return random.randint(0, self.max_block)  
+        return random.randint(0, self.max_block)  
 
 class Hero:
     # Required properties are defined inside the __init__ constructor method
-    def __init__(self, name, starting_health=100):
+    def __init__(self, name, starting_health):
+        """Instance properties:
+          abilities: List
+          armors: List
+          name: String
+          starting_health: Integer
+          current_health: Integer
+        """
         self.name = name
         self.abilities = []
         self.armors = []
         self.starting_health = starting_health
-        self.current_health = 100
+        self.current_health = starting_health
+        self.damage = 0
 
     # Methods are defined as their own named functions inside the class
     def add_ability(self, ability):
@@ -52,7 +69,6 @@ class Hero:
     
     def add_armor(self, armor):
         self.armors.append(armor)
-        return self.armors
 
     def defend(self, incoming_damage):
         total_block = 0
@@ -66,26 +82,42 @@ class Hero:
 # TODO: This method should run the block method on each armor in self.armors
 # thanks @MackRoe for showing me how to account for no armor with len(self.armors)
     def take_damage(self, damage):
-        return
+        # damage -= 
+        self.current_health -= damage
 
+#   '''Updates self.current_health to reflect the damage minus the defense.
+#   '''
+  # TODO: Create a method that updates self.current_health to the current
+  # minus the the amount returned from calling self.defend(damage).
+#   pass
     def is_alive(self):
         return
 
     def fight(self, opponent):
         return
 
+# test for ability.attack() in Ability class
 if __name__ == "__main__":
-    ability = Ability("invisibility", 1000)
-    ability1 = Ability("stretch attack", 567)
-    hero = Hero("Mystic Mayhem", 100)
-    hero.add_ability(ability)
-    hero.add_ability(ability1)
-    print(hero.attack())
-    great_big_helmut = Armor("gbh", 150)
-    hero.add_armor(great_big_helmut)
-    iron_shoes = Armor("iron shoes", 50)
-    hero.add_armor(iron_shoes)
-    print(hero.defend(78))
+    ability = Ability("Debugging Ability", 20)
+    print(ability.name)
+    print(ability.attack())
+
+# test for block() in Armors class
+# if __name__ == "__main__":
+
+
+
+# test for hero.attack()
+# if __name__ == "__main__":
+
+# test for hero.attack()
+# if __name__ == "__main__":
+#     ability = Ability("Great Debugging", 50)
+#     ability1 = Ability("Force field shield", 60)
+#     hero = Hero("Grace Hopper", 200)
+#     hero.add_ability(ability)
+#     hero.add_ability(ability1)
+#     print(hero.attack())
 
 
     
