@@ -80,12 +80,10 @@ class Hero:
 #   '''
         # while len(self.armors) > 0 :
 # TODO: This method should run the block method on each armor in self.armors
-# thanks @MackRoe for showing me how to account for no armor with len(self.armors)
-    # def take_damage(self, damage):
-    #     self.current_health = self.current_health - damage + self.defend()
 
-        # damage -= 
-        # self.current_health -= damage
+    def take_damage(self, damage):
+        incoming_damage = 0
+        self.current_health = self.current_health - damage + self.defend(incoming_damage)
 
 #   '''Updates self.current_health to reflect the damage minus the defense.
 #   '''
@@ -158,6 +156,14 @@ class Hero:
 #     hero.add_armor(armor)
 #     hero.add_armor(armor2)
 #     print(hero.defend(40))
+
+# test for hero.take_damage()
+# if __name__ == "__main__":
+#     hero = Hero("Grace Hopper", 200)
+#     shield = Armor("Shield", 50)
+#     hero.add_armor(shield)
+#     hero.take_damage(50)
+#     print(hero.current_health)
 
 
 
