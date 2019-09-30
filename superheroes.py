@@ -14,10 +14,9 @@ class Ability:
         """Return a value between 0 and the value set by self.max_attack_strength.
         """
         return random.randint(0, self.max_attack_strength)  
-      # TODO: Use random.randint(a, b) to select a random attack value.
-      # Return an attack value between 0 and the full attack.
-      # Hint: The constructor initializes the maximum attack value. 
-          
+    # TODO: Use random.randint(a, b) to select a random attack value.
+    # Return an attack value between 0 and the full attack.
+    # Hint: The constructor initializes the maximum attack value. 
 
 class Armor:
     # Required properties are defined inside the __init__ constructor method
@@ -68,9 +67,9 @@ class Hero:
             total += ability.attack() 
         return total
 
-      # TODO: This method should run Ability.attack() on every ability
-      # in self.abilities and returns the total as an integer.
-      # thanks @mdrame for clarity on what this function looks like
+    # TODO: This method should run Ability.attack() on every ability
+    # in self.abilities and returns the total as an integer.
+    # thanks @mdrame for clarity on what this function looks like
     
     def add_armor(self, armor):
         """Add armor to self.armors
@@ -85,8 +84,7 @@ class Hero:
         for armor in self.armors:
             total_block += armor.block()
         return total_block 
-
-# TODO: This method should run the block method on each armor in self.armors
+    # TODO: This method should run the block method on each armor in self.armors
 
     def take_damage(self, damage):
         """Updates self.current_health to reflect the damage minus the defense."""
@@ -94,12 +92,12 @@ class Hero:
         self.current_health = self.current_health - damage + self.defend(incoming_damage)
 
 
-  # TODO: Create a method that updates self.current_health to the current
-  # minus the the amount returned from calling self.defend(damage).
+    # TODO: Create a method that updates self.current_health to the current
+    # minus the the amount returned from calling self.defend(damage).
 
     def is_alive(self):
         """Return True or False depending on whether the hero is alive or not."""
-  # TODO: Check whether the hero is alive and return true or false
+    # TODO: Check whether the hero is alive and return true or false
         if self.current_health > 0:
             return True
         else:
@@ -139,9 +137,9 @@ class Hero:
             self.add_deaths(1)            
             print(f"{opponent.name} won!")
         
-        #TODO: Refactor this method to update the
-        # number of kills the hero has when the opponent dies.
-        # Also update the number of deaths for whoever dies in the fight
+    #TODO: Refactor this method to update the
+    # number of kills the hero has when the opponent dies.
+    # Also update the number of deaths for whoever dies in the fight
 
 
 class Weapon(Ability):
@@ -168,6 +166,7 @@ class Team(Hero):
         self.name = name
         self.heroes = []
     # TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
+   
     def add_hero(self, name):
         """Add Hero object to self.heroes."""
         self.heroes.append(name)
@@ -184,27 +183,39 @@ class Team(Hero):
         """Prints out all heroes to the console."""
         for hero in self.heroes:
             print(hero.name)
+
     def attack(self, other_team):
-        ''' Battle each team against each other.'''
-        # TODO: Randomly select a living hero from each team and have
-        # them fight until one or both teams have no surviving heroes.
-        # Hint: Use the fight method in the Hero class.
-        pass
+        """Battle each team against each other."""
+        random_hero = random.choice(self.heroes)
+        other_team_hero = random.choice(other_team.heroes)
+
+        while random_hero.is_alive() and other_team_hero.is_alive():
+            random_hero.fight(other_team_hero)
+
+    # thank you @MackRoe and @mdrame for showing me how to get random hero from each team
+    # TODO: Randomly select a living hero from each team and have
+    # them fight until one or both teams have no surviving heroes.
+    # Hint: Use the fight method in the Hero class.
 
     def revive_heroes(self, health=100):
-        ''' Reset all heroes health to starting_health'''
-        # TODO: This method should reset all heroes health to their
-        # original starting value.
-        pass
+        """Reset all heroes health to starting_health."""
+        for hero in self.heroes:
+            hero.health = hero.starting_health
+
+    # TODO: This method should reset all heroes health to their
+    # original starting value.
 
     def stats(self):
-        '''Print team statistics'''
-        # TODO: This method should print the ratio of kills/deaths for each
-        # member of the team to the screen.
-        # This data must be output to the console.
-        # Hint: Use the information stored in each hero.
-        pass
+        """Print team statistics."""
+        for hero in self.heroes:
+            print(hero.name, hero.kills, hero.deaths)
+    # TODO: This method should print the ratio of kills/deaths for each
+    # member of the team to the screen.
+    # This data must be output to the console.
+    # Hint: Use the information stored in each hero.
 
+
+# Unit Tests:
 
 # test for ability.attack() in Ability class
 # if __name__ == "__main__":
@@ -317,19 +328,47 @@ class Team(Hero):
 #     team1.view_all_heroes()
 
 # 2nd test for fight() method
-if __name__ == "__main__":
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero2.add_ability(ability1)
-    hero2.add_ability(ability2)
-    hero1.add_ability(ability3)
-    hero1.add_ability(ability4)
-    hero1.fight(hero2)
-    print(hero1.deaths)
+# if __name__ == "__main__":
+#     hero1 = Hero("Wonder Woman")
+#     hero2 = Hero("Dumbledore")
+#     ability1 = Ability("Super Speed", 300)
+#     ability2 = Ability("Super Eyes", 130)
+#     ability3 = Ability("Wizard Wand", 80)
+#     ability4 = Ability("Wizard Beard", 20)
+#     hero2.add_ability(ability1)
+#     hero2.add_ability(ability2)
+#     hero1.add_ability(ability3)
+#     hero1.add_ability(ability4)
+#     hero1.fight(hero2)
+#     print(hero1.deaths)
+
+# test for .attack() and .stats() methods in Team class
+# if __name__ == "__main__":
+#     team1 = Team("Super Dupers")
+#     other_team = Team("Stompers")
+#     hero1 = Hero("Wonder Lady")
+#     hero2 = Hero("Water Lady")
+#     hero3 = Hero("Wind Lady")
+#     other_team_hero1 = Hero("Winter Storm")
+#     other_team_hero2 = Hero("Sand Storm")
+#     other_team_hero3 = Hero("Tornado")
+#     ability1 = Ability("Super Speed", 300)
+#     ability2 = Ability("Super Eyes", 130)
+#     ability3 = Ability("Wizard Wand", 80)
+#     ability4 = Ability("Wizard Beard", 20)
+#     hero2.add_ability(ability1)
+#     other_team_hero2.add_ability(ability2)
+#     hero1.add_ability(ability3)
+#     other_team_hero1.add_ability(ability4)
+#     other_team.add_hero(other_team_hero1)
+#     other_team.add_hero(other_team_hero2)
+#     other_team.add_hero(other_team_hero3)
+#     team1.add_hero(hero1)
+#     team1.add_hero(hero2)
+#     team1.add_hero(hero3) 
+#     team1.attack(other_team)
+#     team1.stats()
+#     other_team.stats()
 
 
 
