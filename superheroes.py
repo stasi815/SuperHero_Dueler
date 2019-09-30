@@ -122,7 +122,47 @@ class Hero:
             print(f"{self.name} won!")
         else :
             print(f"{opponent.name} won!")
-                 
+
+class Weapon(Ability):
+    def __init__(self, name, full_attack_value):
+        """Create Instance Variables:
+          name:String
+          attack_strength: Integer
+        """
+        self.name = name
+        self.full_attack_value = full_attack_value
+    # Methods are defined as their own named functions inside the class
+    def attack(self):
+        """  This method returns a random value
+        between one half to the full attack power of the weapon.
+        """
+        # full_attack_value = 0
+        weapon_attack = random.randint(self.full_attack_value//2, self.full_attack_value)
+        return weapon_attack
+        # TODO: Use what you learned to complete this method.
+
+class Team(Hero):
+    def __init__(self, name):
+        """Initialize your team with its team name."""
+        self.name = name
+        self.heroes = []
+    # TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
+    def add_hero(self, name):
+        self.heroes.append(name)
+
+    def remove_hero(self, name):
+        for hero in self.heroes:
+            if hero.name == name:
+                self.heroes.remove(hero)
+        return 0
+
+    def view_all_heroes(self):
+        index = 0
+        for hero in self.heroes:
+                "{} {}".format(index, hero)
+                index += 1
+        print(self.heroes)
+
 
 # test for ability.attack() in Ability class
 # if __name__ == "__main__":
@@ -214,6 +254,24 @@ class Hero:
 #     hero1.add_ability(ability3)
 #     hero1.add_ability(ability4)
 #     hero1.fight(hero2)
+
+# test for ability.attack() in Ability class
+# if __name__ == "__main__":
+#     weapon1 = Weapon("big_sword", 50)
+#     print(weapon1.name)
+#     print(weapon1.attack())
+
+# test for Team class
+# if __name__ == "__main__":
+#     team1 = Team("Super Dupers")
+#     hero1 = Hero("Wonder Lady")
+#     hero2 = Hero("Water Lady")
+#     hero3 = Hero("Wind Lady")
+#     team1.add_hero(hero1)
+#     team1.add_hero(hero2)
+#     team1.add_hero(hero3)  
+#     team1.remove_hero("Wind Lady")
+#     team1.view_all_heroes()
 
 
 
