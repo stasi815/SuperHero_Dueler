@@ -6,14 +6,14 @@ class Ability:
           attack_strength: Integer
     """
     # Required properties are defined inside the __init__ constructor method
-    def __init__(self, name, attack_strength):
+    def __init__(self, name, max_attack_strength):
         self.name = name
-        self.attack_strength = attack_strength
+        self.max_attack_strength = max_attack_strength
     # Methods are defined as their own named functions inside the class
     def attack(self):
         """Return a value between 0 and the value set by self.max_damage.
         """
-        return random.randint(0, self.attack_strength)  
+        return random.randint(0, self.max_attack_strength)  
       # TODO: Use random.randint(a, b) to select a random attack value.
       # Return an attack value between 0 and the full attack.
       # Hint: The constructor initializes the maximum attack value. 
@@ -35,7 +35,7 @@ class Armor:
 
 class Hero:
     # Required properties are defined inside the __init__ constructor method
-    def __init__(self, name, starting_health):
+    def __init__(self, name, starting_health=100):
         """Instance properties:
           abilities: List
           armors: List
@@ -72,18 +72,20 @@ class Hero:
 
     def defend(self, incoming_damage):
         total_block = 0
-        while len(self.armors) > 0 :
-            for armor in self.armors:
-                total_block += armor.block()
-        return total_block
+        for armor in self.armors:
+            total_block += armor.block()
+        return total_block 
 #   '''Runs `block` method on each armor.
 #       Returns sum of all blocks
 #   '''
+        # while len(self.armors) > 0 :
 # TODO: This method should run the block method on each armor in self.armors
 # thanks @MackRoe for showing me how to account for no armor with len(self.armors)
-    def take_damage(self, damage):
+    # def take_damage(self, damage):
+    #     self.current_health = self.current_health - damage + self.defend()
+
         # damage -= 
-        self.current_health -= damage
+        # self.current_health -= damage
 
 #   '''Updates self.current_health to reflect the damage minus the defense.
 #   '''
@@ -97,27 +99,70 @@ class Hero:
         return
 
 # test for ability.attack() in Ability class
-if __name__ == "__main__":
-    ability = Ability("Debugging Ability", 20)
-    print(ability.name)
-    print(ability.attack())
-
-# test for block() in Armors class
 # if __name__ == "__main__":
+#     ability = Ability("Debugging Ability", 20)
+#     print(ability.name)
+#     print(ability.attack())
 
-
-
-# test for hero.attack()
+# test for armor.block() in Armor class
 # if __name__ == "__main__":
+#     armor = Armor("Debugging shield", 20)
+#     print(armor.name)
+#     print(armor.block())
+
+# first test for Hero class
+# if __name__ == "__main__":
+#     my_hero = Hero("Grace Hopper", 200)
+#     print(my_hero.name)
+#     print(my_hero.current_health)
+
+# test for hero.add_ability
+# if __name__ == "__main__":
+#     ability = Ability("Great Debugging", 50)
+#     hero = Hero("Grace Hopper", 200)
+#     hero.add_ability(ability)
+#     print(hero.abilities)
 
 # test for hero.attack()
 # if __name__ == "__main__":
 #     ability = Ability("Great Debugging", 50)
-#     ability1 = Ability("Force field shield", 60)
+#     another_ability = Ability("Smarty Pants", 90)
 #     hero = Hero("Grace Hopper", 200)
 #     hero.add_ability(ability)
-#     hero.add_ability(ability1)
+#     hero.add_ability(another_ability)
 #     print(hero.attack())
+
+# test for hero.add_armor
+# if __name__ == "__main__":
+#     hero = Hero("Grace Hopper", 200)
+#     armor = Armor("fight shoes", 20)
+#     armor2 = Armor("hard gloves", 30)
+#     hero.add_armor(armor)    
+#     hero.add_armor(armor2)    
+#     print(hero.armors)
+
+# test for hero.add_armor
+# if __name__ == "__main__":
+#     hero = Hero("Grace Hopper", 200)
+#     armor = Armor("fight shoes", 20)
+#     armor2 = Armor("hard gloves", 30)
+#     hero.add_armor(armor)    
+#     hero.add_armor(armor2)    
+#     print(hero.defend(50))
+
+# test for hero.defend()
+# if __name__ == "__main__":
+#     hero = Hero("Grace Hopper", 200)
+#     armor = Armor("Debugging shield", 20)
+#     armor2 = Armor("hard gloves", 1300)
+#     hero.add_armor(armor)
+#     hero.add_armor(armor2)
+#     print(hero.defend(40))
+
+
+
+
+
 
 
     
