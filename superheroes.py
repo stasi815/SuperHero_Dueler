@@ -148,20 +148,21 @@ class Team(Hero):
         self.heroes = []
     # TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
     def add_hero(self, name):
+        """Add Hero object to self.heroes."""
         self.heroes.append(name)
 
     def remove_hero(self, name):
+        """Remove hero from heroes list.
+        If Hero isn't found return 0."""
         for hero in self.heroes:
             if hero.name == name:
                 self.heroes.remove(hero)
         return 0
 
     def view_all_heroes(self):
-        index = 0
+        """Prints out all heroes to the console."""
         for hero in self.heroes:
-                "{} {}".format(index, hero)
-                index += 1
-        print(self.heroes)
+            print(hero.name)
 
 
 # test for ability.attack() in Ability class
