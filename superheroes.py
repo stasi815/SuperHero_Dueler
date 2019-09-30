@@ -1,17 +1,17 @@
 import random
 
 class Ability:
-    """Create Instance Variables:
-          name:String
-          attack_strength: Integer
-    """
     # Required properties are defined inside the __init__ constructor method
     def __init__(self, name, max_attack_strength):
+        """Create Instance Variables:
+          name:String
+          attack_strength: Integer
+        """
         self.name = name
         self.max_attack_strength = max_attack_strength
     # Methods are defined as their own named functions inside the class
     def attack(self):
-        """Return a value between 0 and the value set by self.max_damage.
+        """Return a value between 0 and the value set by self.max_attack_strength.
         """
         return random.randint(0, self.max_attack_strength)  
       # TODO: Use random.randint(a, b) to select a random attack value.
@@ -52,46 +52,57 @@ class Hero:
 
     # Methods are defined as their own named functions inside the class
     def add_ability(self, ability):
+        """Add ability to abilities list."""
+
         self.abilities.append(ability)
         return self.abilities
         
     def attack(self):
+        """Calculate the total damage from all ability attacks.
+          return: total:Int
+        """
         total = 0
         for ability in self.abilities:
             total += ability.attack() 
         return total
-    #   '''Calculate the total damage from all ability attacks.
-    #       return: total:Int
-    #   '''
+
       # TODO: This method should run Ability.attack() on every ability
       # in self.abilities and returns the total as an integer.
       # thanks @mdrame for clarity on what this function looks like
     
     def add_armor(self, armor):
+        """Add armor to self.armors
+        Armor: Armor Object
+        """
         self.armors.append(armor)
 
     def defend(self, incoming_damage):
+        """Runs `block` method on each armor. 
+        Returns sum of all blocks.""""
         total_block = 0
         for armor in self.armors:
             total_block += armor.block()
         return total_block 
-#   '''Runs `block` method on each armor.
-#       Returns sum of all blocks
-#   '''
-        # while len(self.armors) > 0 :
+
 # TODO: This method should run the block method on each armor in self.armors
 
     def take_damage(self, damage):
+        """Updates self.current_health to reflect the damage minus the defense."""
         incoming_damage = 0
         self.current_health = self.current_health - damage + self.defend(incoming_damage)
 
-#   '''Updates self.current_health to reflect the damage minus the defense.
-#   '''
+
   # TODO: Create a method that updates self.current_health to the current
   # minus the the amount returned from calling self.defend(damage).
-#   pass
+
     def is_alive(self):
-        return
+        """Return True or False depending on whether the hero is alive or not."""
+  # TODO: Check whether the hero is alive and return true or false
+        if self.current_health > 0:
+            return True
+        else:
+            return False
+
 
     def fight(self, opponent):
         return
@@ -165,7 +176,12 @@ class Hero:
 #     hero.take_damage(50)
 #     print(hero.current_health)
 
-
+if __name__ == "__main__":
+    hero = Hero("Grace Hopper", 200)
+    hero.take_damage(150)
+    print(hero.is_alive())
+    hero.take_damage(15000)
+    print(hero.is_alive())
 
 
 
