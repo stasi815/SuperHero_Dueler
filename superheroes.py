@@ -78,7 +78,7 @@ class Hero:
 
     def defend(self, incoming_damage):
         """Runs `block` method on each armor. 
-        Returns sum of all blocks.""""
+        Returns sum of all blocks."""
         total_block = 0
         for armor in self.armors:
             total_block += armor.block()
@@ -105,7 +105,24 @@ class Hero:
 
 
     def fight(self, opponent):
-        return
+        """Current Hero will take turns fighting the opponent hero passed in."""
+        if len(opponent.abilities) == 0 and len(self.abilities) == 0:
+            return "Draw"
+        else :     
+            while self.is_alive() and opponent.is_alive() :
+                if len(self.abilities) > 0 and len(opponent.abilities) == 0 :
+                    opponent.take_damage(self.attack())
+                elif len(opponent.abilities) > 0 and len(self.abilities) == 0 :
+                    self.take_damage(opponent.attack())
+                else :
+                    self.take_damage(opponent.attack())
+                    opponent.take_damage(self.attack())
+        
+        if self.is_alive(): 
+            print(f"{self.name} won!")
+        else :
+            print(f"{opponent.name} won!")
+                 
 
 # test for ability.attack() in Ability class
 # if __name__ == "__main__":
@@ -176,13 +193,27 @@ class Hero:
 #     hero.take_damage(50)
 #     print(hero.current_health)
 
-if __name__ == "__main__":
-    hero = Hero("Grace Hopper", 200)
-    hero.take_damage(150)
-    print(hero.is_alive())
-    hero.take_damage(15000)
-    print(hero.is_alive())
+# test hero.is_alive()
+# if __name__ == "__main__":
+#     hero = Hero("Grace Hopper", 200)
+#     hero.take_damage(150)
+#     print(hero.is_alive())
+#     hero.take_damage(15000)
+#     print(hero.is_alive())
 
+# test hero.fight() method 
+# if __name__ == "__main__":
+#     hero1 = Hero("Wonder Woman")
+#     hero2 = Hero("Dumbledore")
+#     ability1 = Ability("Super Speed", 300)
+#     ability2 = Ability("Super Eyes", 130)
+#     ability3 = Ability("Wizard Wand", 80)
+#     ability4 = Ability("Wizard Beard", 20)
+#     hero2.add_ability(ability1)
+#     hero2.add_ability(ability2)
+#     hero1.add_ability(ability3)
+#     hero1.add_ability(ability4)
+#     hero1.fight(hero2)
 
 
 
