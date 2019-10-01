@@ -54,9 +54,7 @@ class Hero:
     # Methods are defined as their own named functions inside the class
     def add_ability(self, ability):
         """Add ability to abilities list."""
-
         self.abilities.append(ability)
-        return self.abilities
 
     def attack(self):
         """Calculate the total damage from all ability attacks.
@@ -77,7 +75,7 @@ class Hero:
         """
         self.armors.append(armor)
 
-    def defend(self, incoming_damage):
+    def defend(self):
         """Runs `block` method on each armor.
         Returns sum of all blocks."""
         total_block = 0
@@ -88,8 +86,8 @@ class Hero:
 
     def take_damage(self, damage):
         """Updates self.current_health to reflect the damage minus the defense."""
-        incoming_damage = 0
-        self.current_health = self.current_health - damage + self.defend(incoming_damage)
+        # incoming_damage = 0
+        self.current_health = self.current_health - damage - self.defend()
 
 
     # TODO: Create a method that updates self.current_health to the current
@@ -115,26 +113,38 @@ class Hero:
 
     def fight(self, opponent):
         """Current Hero will take turns fighting the opponent hero passed in."""
-        if len(opponent.abilities) == 0 and len(self.abilities) == 0:
-            return "Draw"
-        else:
-            while self.is_alive() and opponent.is_alive() :
-                if len(self.abilities) > 0 and len(opponent.abilities) == 0 :
-                    opponent.take_damage(self.attack())
-                elif len(opponent.abilities) > 0 and len(self.abilities) == 0 :
-                    self.take_damage(opponent.attack())
-                else :
-                    self.take_damage(opponent.attack())
-                    opponent.take_damage(self.attack())
+        while self.is_alive() and opponent.is_alive():
+            self.take_damage(opponent.attack())
+            opponent.take_damage(self.attack())
 
-        if self.is_alive():
-            print(f"{self.name} won!")
-            opponent.add_deaths(1)
-            self.add_kill(1)
-        else :
-            opponent.add_kill(1)
-            self.add_deaths(1)
-            print(f"{opponent.name} won!")
+            if self.is_alive() == False:
+                self.add_deaths(1)
+                opponent.add_kill(1)
+                # return print(f"{opponent.name} won!")
+            else:
+                self.add_kill(1)
+                opponent.add_deaths(1)
+                # return print(f"{self.name} won!")
+        # if len(opponent.abilities) == 0 and len(self.abilities) == 0:
+        #     return "Draw"
+        # else:
+        # while self.is_alive() and opponent.is_alive() :
+        #     if len(self.abilities) > 0 and len(opponent.abilities) == 0 :
+        #         opponent.take_damage(self.attack())
+        #     elif len(opponent.abilities) > 0 and len(self.abilities) == 0 :
+        #         self.take_damage(opponent.attack())
+        #     else :
+        #         self.take_damage(opponent.attack())
+        #         opponent.take_damage(self.attack())
+
+        # if self.is_alive():
+        #     print(f"{self.name} won!")
+        #     opponent.add_deaths(1)
+        #     self.add_kill(1)
+        # else :
+        #     opponent.add_kill(1)
+        #     self.add_deaths(1)
+        #     print(f"{opponent.name} won!")
 
     #TODO: Refactor this method to update the
     # number of kills the hero has when the opponent dies.
@@ -171,6 +181,7 @@ class Weapon(Ability):
 class Team(Hero):
     def __init__(self, name):
         """Initialize your team with its team name."""
+        super().__init__(name, starting_health=100)
         self.name = name
         self.heroes = []
     # TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
@@ -196,14 +207,14 @@ class Team(Hero):
         """Battle each team against each other."""
         random_hero = random.choice(self.heroes)
         other_team_hero = random.choice(other_team.heroes)
-
         while random_hero.is_alive() and other_team_hero.is_alive():
             random_hero.fight(other_team_hero)
-
+        # return Hero.fight(random_hero, other_team_hero)
     # thank you @MackRoe and @mdrame for showing me how to get random hero from each team
     # TODO: Randomly select a living hero from each team and have
     # them fight until one or both teams have no surviving heroes.
     # Hint: Use the fight method in the Hero class.
+
     def survivors(self):
         still_alive = [hero for hero in self.heroes if hero.is_alive()]
         return still_alive
@@ -211,7 +222,7 @@ class Team(Hero):
     def revive_heroes(self, health=100):
         """Reset all heroes health to starting_health."""
         for hero in self.heroes:
-            hero.current_health = hero.starting_health
+            hero.current_health = health
 
     # TODO: This method should reset all heroes health to their
     # original starting value.
@@ -233,8 +244,11 @@ class Arena:
             team_one: None
             team_two: None
         """
-        self.team_one = []
-        self.team_two = []
+        # self.team_one = []
+        # self.team_two = []
+        self.team_one = Team("team one")
+        self.team_two = Team("team two")
+
         # TODO: create instance variables named team_one and team_two that
         # will hold our teams.
 
@@ -257,9 +271,9 @@ class Arena:
         return Weapon with values from user input.
         """
         user_weapon = input("Give your hero a bad-ass weapon. Enter the name of the weapon here: ")
-        user_weapon_value = input("How bad-ass is this weapon? Enter a number value here: ")
+        user_weapon_value = int(input("How bad-ass is this weapon? Enter a number value here: "))
 
-        return Weapon(user_weapon, int(user_weapon_value))
+        return Weapon(user_weapon, user_weapon_value)
     # TODO: This method will allow a user to create a weapon.
     # Prompt the user for the necessary information to create a new weapon object.
     # return the new weapon object.
@@ -375,16 +389,31 @@ class Arena:
 
     def team_battle(self):
         """Battle team_one and team_two together."""
+        # self.winning_team = self.team_one.attack(self.team_two)
+        # Team.fight(self.team_one, self.team_two)
         self.team_one.attack(self.team_two)
-        if len(self.team_one.survivors()) > 0 and len(self.team_two.survivors()) == 0:
-            self.winner = self.team_one.name
-            return self.winner
-        else:
-            self.winner = self.team_two.name
-            return self.winner
+        # if len(self.team_one.survivors()) > 0 and len(self.team_two.survivors()) == 0:
+        #     self.winner = self.team_one.name
+        #     return self.winner
+        # else:
+        #     self.winner = self.team_two.name
+        #     return self.winner
         # TODO: This method should battle the teams together.
         # Call the attack method that exists in your team objects
         # for that battle functionality.
+    def show_stats(self):
+        '''Prints team statistics to terminal.'''
+        # Declare winning team
+        if self.team_one.heroes_alive():
+            print("Team one wins the game!")
+        elif self.team_two.heroes_alive():
+            print("Team two wins the game!")
+        else:
+            print("It's a tie")
+        # Show both teams average kill/death ratio.
+        self.team_one.stats()
+        print("--------------------")
+        self.team_two.stats()
 # Unit Tests:
 
 # test for ability.attack() in Ability class
@@ -528,7 +557,7 @@ class Arena:
 #     ability4 = Ability("Wizard Beard", 20)
 #     hero2.add_ability(ability1)
 #     other_team_hero2.add_ability(ability2)
-#     hero1.add_ability(ability3)
+#     hero2.add_ability(ability3)
 #     other_team_hero1.add_ability(ability4)
 #     other_team.add_hero(other_team_hero1)
 #     other_team.add_hero(other_team_hero2)
@@ -557,9 +586,12 @@ class Arena:
 #     print(hero.name, hero.abilities)
 
 # # test for build_team_one() and build_team_two()
-# if __name__ == "__main__":
-#     arena1 = Arena()
-#     arena1.build_team_two()
+if __name__ == "__main__":
+    arena1 = Arena()
+    arena1.build_team_one()
+    arena1.build_team_two()
+    arena1.team_battle()
+    arena1.show_stats()
 
 
 
