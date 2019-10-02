@@ -193,11 +193,7 @@ class Team:
             random_hero = random.choice(self.living_heroes())
             other_hero = random.choice(other_team.living_heroes())
             random_hero.fight(other_hero)
-        # random_hero = random.choice(self.heroes)
-        # other_team_hero = random.choice(other_team.heroes)
-        # while random_hero.is_alive() and other_team_hero.is_alive():
-        #     random_hero.fight(other_team_hero)
-        # return Hero.fight(random_hero, other_team_hero)
+
     # thank you @MackRoe and @mdrame for showing me how to get random hero from each team
     # TODO: Randomly select a living hero from each team and have
     # them fight until one or both teams have no surviving heroes.
@@ -297,7 +293,7 @@ class Arena:
                     user_wants_ability = False
             else:
                 user_wants_ability = False
-                print("Not one of the available choices. Please enter '1.' ")
+                print("Not one of the available choices. ")
 
         user_wants_weapon = True
         while user_wants_weapon:
@@ -305,9 +301,14 @@ class Arena:
             if user_weapon_input == '2':
                 weapon = self.create_weapon()
                 hero.add_weapon(weapon)
-                user_wants_weapon = False
+                more_weapons = input("Would you like to add another weapon? (y/n) ")
+                if more_weapons.lower() == "y":
+                    user_wants_weapon = True
+                else :
+                    user_wants_weapon = False
             else:
-                print("Not one of the available choices. Please enter '2.' ")
+                user_wants_weapon = False
+                print("Not one of the available choices. ")
 
         user_wants_armor = True
         while user_wants_armor:
@@ -315,9 +316,14 @@ class Arena:
             if user_armor_input == '3':
                 armor = self.create_armor()
                 hero.add_armor(armor)
-                user_wants_armor = False
+                more_armor = input("Would you like to add another piece of armor? (y/n) ")
+                if more_armor.lower() == "y":
+                    user_wants_armor = True
+                else :
+                    user_wants_armor = False
             else:
-                print("Not one of the available choices. Please enter '3.' ")
+                user_wants_armor = False
+                print("Not one of the available choices. ")
 
         return hero
 
@@ -333,28 +339,14 @@ class Arena:
         """Prompt the user to build team_one"""
         team_one_name = input("Give team one a name: ")
         self.team_one = Team(team_one_name)
-        # team_build = True
-        # while team_build == True:
+
         while True :
             num_heroes1 = input("How many heroes does team one have? ")
             if num_heroes1.isdigit() :
                 break
         for i in range(int(num_heroes1)):
             self.team_one.add_hero(self.create_hero())
-        # self.team_one.view_all_heroes()
-        # return self.team_one
-        #     if num_heroes1 == "0":
-        #         print("Please add at least one hero to your team.")
-        #     else:
-        #         count = 0
-        #         while int(num_heroes1) > count:
-        #             hero = self.create_hero()
-        #             self.team_one.add_hero(hero)
-        #             count += 1
-        #         team_build == False
-        #     team_build == False
-        # self.team_one.view_all_heroes()
-        # return self.team_one
+
 
 
     # TODO: This method should allow a user to create team one.
@@ -367,8 +359,7 @@ class Arena:
         """Prompt the user to build team_two"""
         team_two_name = input("Give team two a name: ")
         self.team_two = Team(team_two_name)
-        # team_build = True
-        # while team_build == True:
+
         while True:
             num_heroes2 = input("How many heroes does team two have? ")
             if num_heroes2.isdigit():
@@ -383,15 +374,9 @@ class Arena:
 
     def team_battle(self):
         """Battle team_one and team_two together."""
-        # self.winning_team = self.team_one.attack(self.team_two)
-        # Team.fight(self.team_one, self.team_two)
+
         self.team_one.attack(self.team_two)
-        # if len(self.team_one.survivors()) > 0 and len(self.team_two.survivors()) == 0:
-        #     self.winner = self.team_one.name
-        #     return self.winner
-        # else:
-        #     self.winner = self.team_two.name
-        #     return self.winner
+
         # TODO: This method should battle the teams together.
         # Call the attack method that exists in your team objects
         # for that battle functionality.
@@ -399,15 +384,16 @@ class Arena:
         '''Prints team statistics to terminal.'''
         # Declare winning team
         if len(self.team_one.living_heroes()) > 0 :
-            print("Team one wins the game!")
+            print(f"{self.team_one.name} wins the game!")
         elif len(self.team_two.living_heroes()) > 0 :
-            print("Team two wins the game!")
+            print(f"{self.team_two.name} wins the game!")
         else:
             print("It's a tie")
         # Show both teams average kill/death ratio.
         self.team_one.stats()
         print("--------------------")
         self.team_two.stats()
+
 # Unit Tests:
 
 # test for ability.attack() in Ability class
@@ -579,13 +565,38 @@ class Arena:
 #     hero.add_weapon(sword)
 #     print(hero.name, hero.abilities)
 
-# # test for build_team_one() and build_team_two()
+# test for build_team_one(), build_team_two(), and final team battle functions
+# if __name__ == "__main__":
+#     arena1 = Arena()
+#     arena1.build_team_one()
+#     arena1.build_team_two()
+#     arena1.team_battle()
+#     arena1.show_stats()
+
 if __name__ == "__main__":
-    arena1 = Arena()
-    arena1.build_team_one()
-    arena1.build_team_two()
-    arena1.team_battle()
-    arena1.show_stats()
+    game_is_running = True
+
+    # Instantiate Game Arena
+    arena = Arena()
+
+    #Build Teams
+    arena.build_team_one()
+    arena.build_team_two()
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        #Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            #Revive heroes to play again
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
 
 
 
